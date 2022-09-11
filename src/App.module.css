@@ -19,6 +19,10 @@
   color: white;
 }
 
+.textarea {
+  resize: none;
+}
+
 .link {
   color: #b318f0;
 }
