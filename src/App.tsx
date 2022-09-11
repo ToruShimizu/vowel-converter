@@ -6,9 +6,41 @@ import styles from "./App.module.css";
 import Stack from "@suid/material/Stack";
 import Grid from "@suid/material/Grid";
 import Box from "@suid/material/Box";
+import { hiraganaApiClient } from "../api/client";
+import Alert from "@suid/material/Alert";
+
+const APP_ID = import.meta.env.VITE_APP_ID as string;
+const ERROR_MESSAGE = "変換に失敗しました。もう一度実行してください。";
+const EMPTY_VALUE = "母音に変換したい文字を入力してください。";
 
 const App: Component = () => {
   const [value, setValue] = createSignal("");
+  const [convertedValue, setConvertedValue] = createSignal("");
+
+  const [errorMessage, setErrorMessage] = createSignal("");
+
+  const convertHiragana = async (value: string) => {
+    setErrorMessage("");
+
+    try {
+      if (!value) {
+        throw new Error(EMPTY_VALUE);
+      }
+      const { converted } = await hiraganaApiClient.hiragana.$post({
+        body: {
+          app_id: APP_ID,
+          sentence: value,
+          output_type: "hiragana",
+        },
+      });
+      if (!converted) throw new Error(ERROR_MESSAGE);
+
+      setConvertedValue(converted);
+    } catch (e: any) {
+      setErrorMessage(e.message);
+      setConvertedValue("");
+    }
+  };
 
   return (
     <Container sx={{ p: 3 }}>
@@ -26,14 +58,18 @@ const App: Component = () => {
             placeholder="母音に変換したい文字を入力してください"
             rows="10"
             cols="50"
-            onchange={(event) => {
+            onInput={(event) => {
               setValue(event.currentTarget.value);
             }}
             class={styles.textarea}
           >
             {value()}
           </textarea>
-          <Button variant="contained" size="large">
+          <Button
+            variant="contained"
+            size="large"
+            onclick={() => convertHiragana(value())}
+          >
             母音に変換する
           </Button>
           <textarea
@@ -43,14 +79,16 @@ const App: Component = () => {
             rows="10"
             cols="50"
             readonly
-            onchange={(event) => {
-              setValue(event.currentTarget.value);
-            }}
             class={styles.textarea}
           >
-            {value()}
+            {convertedValue()}
           </textarea>
         </Stack>
+        {errorMessage() && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {errorMessage()}
+          </Alert>
+        )}
       </Grid>
     </Container>
   );
