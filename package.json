@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "lint-fix": "eslint --cache --fix src/ && prettier --write src/"
+    "lint-fix": "eslint --cache --fix src/ && prettier --write src/",
+    "api:build": "aspida"
   },
   "license": "MIT",
   "devDependencies": {
@@ -21,8 +22,11 @@
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
+    "@aspida/axios": "^1.11.0",
+    "@aspida/fetch": "^1.11.0",
     "@suid/icons-material": "^0.4.0",
     "@suid/material": "^0.6.2",
+    "axios": "^0.27.2",
     "solid-js": "^1.5.1"
   },
   "volta": {
