@@ -15,6 +15,7 @@
     "vite-plugin-solid": "^2.3.0"
   },
   "dependencies": {
+    "@suid/material": "^0.6.2",
     "solid-js": "^1.5.1"
   },
   "volta": {
