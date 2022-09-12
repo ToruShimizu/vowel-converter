@@ -6,11 +6,10 @@ import styles from "./App.module.css";
 import Stack from "@suid/material/Stack";
 import Grid from "@suid/material/Grid";
 import Box from "@suid/material/Box";
-import { hiraganaApiClient } from "../api/client";
 import Alert from "@suid/material/Alert";
+import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
-const ERROR_MESSAGE = "変換に失敗しました。もう一度実行してください。";
 const EMPTY_VALUE = "母音に変換したい文字を入力してください。";
 
 const App: Component = () => {
@@ -18,6 +17,7 @@ const App: Component = () => {
   const [convertedValue, setConvertedValue] = createSignal("");
 
   const [errorMessage, setErrorMessage] = createSignal("");
+  const hiraganaRepo = useHiraganaRepo();
 
   const convertHiragana = async (value: string) => {
     setErrorMessage("");
@@ -26,18 +26,22 @@ const App: Component = () => {
       if (!value) {
         throw new Error(EMPTY_VALUE);
       }
-      const { converted } = await hiraganaApiClient.hiragana.$post({
-        body: {
-          app_id: APP_ID,
-          sentence: value,
-          output_type: "hiragana",
-        },
+
+      const converted = await hiraganaRepo.fetch({
+        app_id: APP_ID,
+        sentence: value,
+        output_type: "hiragana",
       });
-      if (!converted) throw new Error(ERROR_MESSAGE);
 
       setConvertedValue(converted);
-    } catch (e: any) {
-      setErrorMessage(e.message);
+    } catch (e: unknown) {
+      const errorResponse = e as { code: number; message: string };
+      if (errorResponse.code !== 200) {
+        setErrorMessage(ERROR_MESSAGE);
+        return;
+      }
+
+      setErrorMessage(errorResponse.message);
       setConvertedValue("");
     }
   };
