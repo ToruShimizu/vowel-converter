@@ -8,9 +8,12 @@ import Grid from "@suid/material/Grid";
 import Box from "@suid/material/Box";
 import Alert from "@suid/material/Alert";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
+import { useConvertToVowel } from "./modules/useConvertToVowel";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 const EMPTY_VALUE = "母音に変換したい文字を入力してください。";
+
+const { convertToVowel } = useConvertToVowel();
 
 const App: Component = () => {
   const [value, setValue] = createSignal("");
@@ -33,7 +36,9 @@ const App: Component = () => {
         output_type: "hiragana",
       });
 
-      setConvertedValue(converted);
+      const convertedVowel = convertToVowel(converted);
+
+      setConvertedValue(convertedVowel);
     } catch (e: unknown) {
       const errorResponse = e as { code: number; message: string };
       if (errorResponse.code !== 200) {
