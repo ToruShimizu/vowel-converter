@@ -21,6 +21,7 @@ const { convertToVowel } = useConvertToVowel();
 const App: Component = () => {
   const [value, setValue] = createSignal("");
   const [convertedValue, setConvertedValue] = createSignal("");
+  const [isLoading, setIsLoading] = createSignal(false);
 
   const [errorMessage, setErrorMessage] = createSignal("");
   const hiraganaRepo = useHiraganaRepo();
@@ -33,6 +34,8 @@ const App: Component = () => {
         setErrorMessage(EMPTY_VALUE);
         return;
       }
+
+      setIsLoading(true);
 
       const converted = await hiraganaRepo.fetch({
         app_id: APP_ID,
@@ -50,9 +53,8 @@ const App: Component = () => {
         setErrorMessage(ERROR_MESSAGE);
         return;
       }
-
-      setErrorMessage(errorResponse.message);
-      setConvertedValue("");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,7 +106,12 @@ const App: Component = () => {
       </Box>
 
       <Center>
-        <Button onclick={() => convertHiragana(value())} size="lg">
+        <Button
+          loading={isLoading()}
+          loadingText="変換中"
+          onclick={() => convertHiragana(value())}
+          size="lg"
+        >
           母音に変換する
         </Button>
       </Center>
