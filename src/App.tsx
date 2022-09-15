@@ -4,7 +4,14 @@ import Alert from "@suid/material/Alert";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 import { useConvertToVowel } from "./modules/useConvertToVowel";
 import AlertTitle from "@suid/material/AlertTitle";
-import { Button, Heading, Stack, Container, Center, Box } from "@hope-ui/solid";
+import {
+  Button,
+  Heading,
+  Stack,
+  Container,
+  Center,
+  Textarea,
+} from "@hope-ui/solid";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 const EMPTY_VALUE = "母音に変換したい文字を入力してください。";
@@ -55,39 +62,36 @@ const App: Component = () => {
           母音変換機
         </Heading>
       </Center>
-      <Center>
-        <Stack
-          spacing={16}
-          direction={{ "@initial": "column", "@sm": "row" }}
-          mb={36}
-        >
-          <textarea
-            id="value"
-            aria-label="value"
-            placeholder="母音に変換したい文字を入力してください"
-            rows="10"
-            cols="50"
-            onInput={(event) => {
-              setValue(event.currentTarget.value);
-            }}
-            class={styles.textarea}
-          >
-            {value()}
-          </textarea>
+      <Stack
+        spacing={16}
+        direction={{ "@initial": "column", "@md": "row" }}
+        mb={36}
+      >
+        <Textarea
+          value={value()}
+          placeholder="母音に変換したい文字を入力してください"
+          onInput={(event) => {
+            setValue(event.currentTarget.value);
+          }}
+          invalid={errorMessage() !== "" && value() === ""}
+          size="lg"
+          h={200}
+          class={styles.textarea}
+        />
 
-          <textarea
-            id="value"
-            aria-label="value"
-            placeholder="母音に変換後の文字が入ります"
-            rows="10"
-            cols="50"
-            readonly
-            class={styles.textarea}
-          >
-            {convertedValue()}
-          </textarea>
-        </Stack>
-      </Center>
+        <Textarea
+          value={convertedValue()}
+          placeholder="母音に変換後の文字が入ります"
+          onInput={(event) => {
+            setValue(event.currentTarget.value);
+          }}
+          readOnly={convertedValue() !== ""}
+          variant="filled"
+          size="lg"
+          h={200}
+          class={styles.textarea}
+        />
+      </Stack>
       {errorMessage() && (
         <Alert severity="error" sx={{ mt: 2 }}>
           <AlertTitle
