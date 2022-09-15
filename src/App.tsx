@@ -11,8 +11,12 @@ import {
   Textarea,
   Text,
   Box,
+  notificationService,
+  Notification,
+  NotificationTitle,
+  Icon,
 } from "@hope-ui/solid";
-
+import { CgDanger } from "solid-icons/cg";
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 const EMPTY_VALUE = "文字を入力してください。";
 
@@ -28,7 +32,6 @@ const App: Component = () => {
 
   const convertHiragana = async (value: string) => {
     setErrorMessage("");
-
     try {
       if (!value) {
         setErrorMessage(EMPTY_VALUE);
@@ -47,12 +50,17 @@ const App: Component = () => {
 
       setConvertedValue(convertedVowel);
     } catch (e: unknown) {
-      const errorResponse = e as { code: number; message: string };
-
-      if (errorResponse.code && errorResponse.code !== 200) {
-        setErrorMessage(ERROR_MESSAGE);
-        return;
-      }
+      notificationService.show({
+        render: () => (
+          <Notification bg={"$danger4"}>
+            <Icon boxSize="1.5em" color={"$danger11"} as={CgDanger} mr={2} />
+            <NotificationTitle color={"$danger11"}>
+              {ERROR_MESSAGE}
+            </NotificationTitle>
+          </Notification>
+        ),
+        duration: 2_000,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -110,7 +118,7 @@ const App: Component = () => {
           loading={isLoading()}
           loadingText="変換中"
           onclick={() => convertHiragana(value())}
-          size="lg"
+          w={{ "@initial": "100%", "@md": "320px" }}
         >
           母音に変換する
         </Button>
