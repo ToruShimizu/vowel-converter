@@ -61,6 +61,7 @@ const App: Component = () => {
         ),
         duration: 2_000,
       });
+      setConvertedValue("");
     } finally {
       setIsLoading(false);
     }
@@ -84,32 +85,40 @@ const App: Component = () => {
           direction={{ "@initial": "column", "@md": "row" }}
           mb={36}
         >
-          <Textarea
-            value={value()}
-            placeholder="母音に変換したい文字を入力してください"
-            onInput={(event) => {
-              setValue(event.currentTarget.value);
-            }}
-            invalid={errorMessage() !== "" && value() === ""}
-            size="lg"
-            h={200}
-            required
-            bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
-            class={styles.textarea}
-          />
-
-          <Textarea
-            value={convertedValue()}
-            placeholder="母音に変換後の文字が入ります"
-            onInput={(event) => {
-              setValue(event.currentTarget.value);
-            }}
-            readOnly={convertedValue() !== ""}
-            variant="filled"
-            size="lg"
-            h={200}
-            class={styles.textarea}
-          />
+          <Box>
+            <Text mb="$2">母音に変換したい文字</Text>
+            <Textarea
+              value={value()}
+              placeholder="母音に変換したい文字"
+              onInput={(event) => {
+                setValue(event.currentTarget.value);
+              }}
+              invalid={errorMessage() !== "" && value() === ""}
+              size="lg"
+              h={200}
+              required
+              bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
+              resize={"none"}
+            />
+          </Box>
+          <Box>
+            <Text mb="$2">母音に変換後の文字</Text>
+            <Textarea
+              value={convertedValue()}
+              variant="unstyled"
+              placeholder="おいいんいえんあんいあいおい"
+              readOnly
+              size="lg"
+              h={200}
+              py={8}
+              px={16}
+              resize={"none"}
+              bg={convertedValue()! == "" ? "$neutral3" : "$danger3"}
+              onInput={(event) => {
+                setValue(event.currentTarget.value);
+              }}
+            />
+          </Box>
         </Stack>
       </Box>
 
