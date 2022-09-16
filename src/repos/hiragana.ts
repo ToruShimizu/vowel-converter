@@ -17,7 +17,7 @@ export const useHiraganaRepo = () => {
 
       if (!converted) throw new Error(ERROR_MESSAGE);
 
-      return converted;
+      return converted.replace(/\s+/g, "");
     },
   };
 };
