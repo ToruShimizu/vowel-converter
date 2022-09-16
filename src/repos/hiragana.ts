@@ -9,11 +9,13 @@ export const useHiraganaRepo = () => {
       sentence: string;
       output_type: "hiragana" | "katakana";
     }) => {
-      const { converted } = await hiraganaApiClient.hiragana.$post({
+      const data = await hiraganaApiClient.hiragana.$post({
         body,
       });
 
-      // if (!converted) throw new Error(ERROR_MESSAGE);
+      const converted = data.converted;
+
+      if (!converted) throw new Error(ERROR_MESSAGE);
 
       return converted;
     },
