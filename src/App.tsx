@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { Component, createMemo, createSignal, Show } from "solid-js";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 import { useConvertToVowel } from "./modules/useConvertToVowel";
 import {
@@ -14,6 +14,7 @@ import {
   Notification,
   NotificationTitle,
   Icon,
+  Spinner,
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
 
@@ -22,23 +23,24 @@ const APP_ID = import.meta.env.VITE_APP_ID as string;
 const { convertToVowel } = useConvertToVowel();
 
 const App: Component = () => {
-  const [value, setValue] = createSignal("");
-  const [convertedValue, setConvertedValue] = createSignal("");
+  const [text, setText] = createSignal("");
+  const [convertedHiragana, setConvertedHiragana] = createSignal("");
   const [isLoading, setIsLoading] = createSignal(false);
 
   const [errorMessage, setErrorMessage] = createSignal("");
   const hiraganaRepo = useHiraganaRepo();
 
-  const convertHiragana = async (value: string) => {
+  const isInValid = createMemo(() => errorMessage() !== "" && text() === "");
+
+  const fetchConvertHiragana = async (value: string) => {
     setErrorMessage("");
-    setConvertedValue("");
+    setConvertedHiragana("");
 
     try {
       if (!value) {
         setErrorMessage("文字を入力してください。");
         return;
       }
-
       setIsLoading(true);
 
       const converted = await hiraganaRepo.fetch({
@@ -47,9 +49,7 @@ const App: Component = () => {
         output_type: "hiragana",
       });
 
-      const convertedVowel = convertToVowel(converted);
-
-      setConvertedValue(convertedVowel);
+      setConvertedHiragana(converted);
     } catch (e: unknown) {
       notificationService.show({
         render: () => (
@@ -67,8 +67,10 @@ const App: Component = () => {
     }
   };
 
+  const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
+
   return (
-    <Container maxWidth="md" p={24}>
+    <Container maxWidth="md" py={"$16"} px={"$6"}>
       <Center>
         <Heading level="1" size="4xl" my={24}>
           母音変換機
@@ -78,56 +80,79 @@ const App: Component = () => {
       <Stack
         spacing={16}
         direction={{ "@initial": "column", "@md": "row" }}
-        mb={36}
+        mb={"$16"}
         justifyContent="center"
       >
-        <Box w={{ "@initial": "full", "@md": "400px" }}>
+        <Box w={{ "@initial": "$full", "@md": "400px" }} h={200} mb="$12">
           <Text mb="$2">母音に変換したい文字</Text>
           <Textarea
-            value={value()}
+            value={text()}
             placeholder="母音に変換したい文字"
-            onInput={(event) => {
-              setValue(event.currentTarget.value);
-            }}
-            invalid={errorMessage() !== "" && value() === ""}
+            invalid={isInValid()}
             size="lg"
-            h={200}
+            h={"$full"}
             required
-            bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
+            bg={isInValid() ? "$danger6" : "fff"}
             resize={"none"}
+            borderRadius={"$2xl"}
+            onInput={(event) => {
+              setText(event.currentTarget.value);
+            }}
+            onKeyPress={(event) => {
+              if (event.key == "Enter") {
+                event.preventDefault();
+                fetchConvertHiragana(text());
+              }
+            }}
           />
-          {errorMessage() !== "" && value() === "" && (
+          {isInValid() && (
             <Text color={"$danger10"} size={"sm"}>
               {errorMessage()}
             </Text>
           )}
         </Box>
 
-        <Box w={{ "@initial": "full", "@md": "400px" }}>
+        <Box w={{ "@initial": "$full", "@md": "400px" }} h={200}>
           <Text mb="$2">母音に変換後の文字</Text>
-          <Textarea
-            value={convertedValue()}
-            variant="unstyled"
-            placeholder="おいいんいえんあんいあいおい"
-            readOnly
-            size="lg"
-            h={200}
-            py={8}
-            px={16}
-            resize={"none"}
-            bg={convertedValue()! == "" ? "$neutral3" : "$danger3"}
-            onInput={(event) => {
-              setValue(event.currentTarget.value);
-            }}
-          />
+          <Show
+            when={!isLoading()}
+            fallback={() => (
+              <Center alignItems="center" display="flex" h="$full">
+                <Spinner
+                  thickness="4px"
+                  speed="0.85s"
+                  size="xl"
+                  color="$primary6"
+                />
+              </Center>
+            )}
+          >
+            <Textarea
+              value={convertedVowel()}
+              variant="unstyled"
+              placeholder="おいいんいえんあんいあいおい"
+              readOnly
+              size="lg"
+              py={!convertedVowel() ? "$2" : ""}
+              px={!convertedVowel() ? "$4" : "$2"}
+              h={"$full"}
+              resize={"none"}
+              bg={!convertedVowel() ? "$neutral3" : "$primary3"}
+              onInput={(event) => {
+                setText(event.currentTarget.value);
+              }}
+              borderRadius={"$2xl"}
+            />
+          </Show>
         </Box>
       </Stack>
 
       <Center>
         <Button
           loading={isLoading()}
-          onclick={() => convertHiragana(value())}
+          onclick={() => fetchConvertHiragana(text())}
           w={{ "@initial": "100%", "@md": "320px" }}
+          bg={"$primary9"}
         >
           母音に変換する
         </Button>

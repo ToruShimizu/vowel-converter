@@ -4,6 +4,7 @@ export type Methods = DefineMethods<{
   post: {
     reqBody: {
       app_id: string;
+      request_id?: string;
       sentence: string;
       output_type: string;
     };
@@ -11,7 +12,7 @@ export type Methods = DefineMethods<{
     resBody: {
       request_id: string;
       output_type: string;
-      converted: string;
+      converted?: string;
     };
   };
 }>;
