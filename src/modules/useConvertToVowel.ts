@@ -102,9 +102,14 @@ export const getVowel = (char: string) => {
  */
 export const replaceContractedSounds = (char: string) => {
   return char
-    .replace(/[あ-ん][ゃ]/g, "あ")
-    .replace(/[あ-ん][ゅ]/g, "う")
-    .replace(/[あ-ん][ょ]/g, "お");
+    .replace(/[あ-ゔ][ゃ]/g, "あ")
+    .replace(/[あ-ゔ][ゅ]/g, "う")
+    .replace(/[あ-ゔ][ょ]/g, "お")
+    .replace(/[あ-ゔ][ぁ]/g, "あ")
+    .replace(/[あ-ゔ][ぃ]/g, "い")
+    .replace(/[あ-ゔ][ぅ]/g, "う")
+    .replace(/[あ-ゔ][ぇ]/g, "え")
+    .replace(/[あ-ゔ][ぉ]/g, "お");
 };
 
 /**

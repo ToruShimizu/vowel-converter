@@ -3,7 +3,7 @@ import * as assert from "uvu/assert";
 import { replaceContractedSounds } from "../useConvertToVowel";
 
 const CONTRACTED_SOUNDS =
-  "きゃきゅきょしゃしゅしょちゃちゅちょにゃにゅにょひゃひゅひょみゃみゅみょりゃりゅりょぎゃぎゅぎょじゃじゅじょぢゃぢゅぢょびゃびゅびょぴゃぴゅぴょ";
+  "きゃきゅきょしゃしゅしょちゃちゅちょにゃにゅにょひゃひゅひょみゃみゅみょりゃりゅりょぎゃぎゅぎょじゃじゅじょぢゃぢゅぢょびゃびゅびょぴゃぴゅぴょゔぁ";
 
 const test = suite("replaceContractedSounds");
 
@@ -11,7 +11,7 @@ test("replaceContractedSound => 拗音だけの場合、拗音が母音に変換
   const actual = replaceContractedSounds(CONTRACTED_SOUNDS);
 
   const expected =
-    "あうおあうおあうおあうおあうおあうおあうおあうおあうおあうおあうおあうお";
+    "あうおあうおあうおあうおあうおあうおあうおあうおあうおあうおあうおあうおあ";
 
   assert.equal(actual, expected);
 });

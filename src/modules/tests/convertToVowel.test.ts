@@ -24,4 +24,10 @@ test("convertToVowel => ひらがなに変換された任意の文字列にハ�
   assert.equal(actual_1, "ううああいいう");
 });
 
+test("convertToVowel => 小文字の「っ」は変換されない", () => {
+  const actual_1 = convertToVowel("たっちぱねる");
+
+  assert.equal(actual_1, "あっいあえう");
+});
+
 test.run();
