@@ -1,5 +1,4 @@
 import { Component, createSignal } from "solid-js";
-import styles from "./App.module.css";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 import { useConvertToVowel } from "./modules/useConvertToVowel";
 import {
@@ -17,8 +16,8 @@ import {
   Icon,
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
+
 const APP_ID = import.meta.env.VITE_APP_ID as string;
-const EMPTY_VALUE = "文字を入力してください。";
 
 const { convertToVowel } = useConvertToVowel();
 
@@ -32,9 +31,11 @@ const App: Component = () => {
 
   const convertHiragana = async (value: string) => {
     setErrorMessage("");
+    setConvertedValue("");
+
     try {
       if (!value) {
-        setErrorMessage(EMPTY_VALUE);
+        setErrorMessage("文字を入力してください。");
         return;
       }
 
@@ -61,7 +62,6 @@ const App: Component = () => {
         ),
         duration: 2_000,
       });
-      setConvertedValue("");
     } finally {
       setIsLoading(false);
     }
@@ -75,57 +75,57 @@ const App: Component = () => {
         </Heading>
       </Center>
 
-      <Box>
-        {errorMessage() !== "" && value() === "" && (
-          <Text color={"$danger10"}>{errorMessage()}</Text>
-        )}
+      <Stack
+        spacing={16}
+        direction={{ "@initial": "column", "@md": "row" }}
+        mb={36}
+        justifyContent="center"
+      >
+        <Box w={{ "@initial": "full", "@md": "400px" }}>
+          <Text mb="$2">母音に変換したい文字</Text>
+          <Textarea
+            value={value()}
+            placeholder="母音に変換したい文字"
+            onInput={(event) => {
+              setValue(event.currentTarget.value);
+            }}
+            invalid={errorMessage() !== "" && value() === ""}
+            size="lg"
+            h={200}
+            required
+            bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
+            resize={"none"}
+          />
+          {errorMessage() !== "" && value() === "" && (
+            <Text color={"$danger10"} size={"sm"}>
+              {errorMessage()}
+            </Text>
+          )}
+        </Box>
 
-        <Stack
-          spacing={16}
-          direction={{ "@initial": "column", "@md": "row" }}
-          mb={36}
-        >
-          <Box>
-            <Text mb="$2">母音に変換したい文字</Text>
-            <Textarea
-              value={value()}
-              placeholder="母音に変換したい文字"
-              onInput={(event) => {
-                setValue(event.currentTarget.value);
-              }}
-              invalid={errorMessage() !== "" && value() === ""}
-              size="lg"
-              h={200}
-              required
-              bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
-              resize={"none"}
-            />
-          </Box>
-          <Box>
-            <Text mb="$2">母音に変換後の文字</Text>
-            <Textarea
-              value={convertedValue()}
-              variant="unstyled"
-              placeholder="おいいんいえんあんいあいおい"
-              readOnly
-              size="lg"
-              h={200}
-              py={8}
-              px={16}
-              resize={"none"}
-              bg={convertedValue()! == "" ? "$neutral3" : "$danger3"}
-              onInput={(event) => {
-                setValue(event.currentTarget.value);
-              }}
-            />
-          </Box>
-        </Stack>
-      </Box>
+        <Box w={{ "@initial": "full", "@md": "400px" }}>
+          <Text mb="$2">母音に変換後の文字</Text>
+          <Textarea
+            value={convertedValue()}
+            variant="unstyled"
+            placeholder="おいいんいえんあんいあいおい"
+            readOnly
+            size="lg"
+            h={200}
+            py={8}
+            px={16}
+            resize={"none"}
+            bg={convertedValue()! == "" ? "$neutral3" : "$danger3"}
+            onInput={(event) => {
+              setValue(event.currentTarget.value);
+            }}
+          />
+        </Box>
+      </Stack>
 
       <Center>
         <Button
           loading={isLoading()}
-          loadingText="変換中"
           onclick={() => convertHiragana(value())}
           w={{ "@initial": "100%", "@md": "320px" }}
         >
