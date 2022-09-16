@@ -1,36 +1,45 @@
-import Typography from "@suid/material/Typography";
 import { Component, createSignal } from "solid-js";
-import Button from "@suid/material/Button";
-import Container from "@suid/material/Container";
-import styles from "./App.module.css";
-import Stack from "@suid/material/Stack";
-import Alert from "@suid/material/Alert";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 import { useConvertToVowel } from "./modules/useConvertToVowel";
-import useMediaQuery from "@suid/material/useMediaQuery";
-import AlertTitle from "@suid/material/AlertTitle";
+import {
+  Button,
+  Heading,
+  Stack,
+  Container,
+  Center,
+  Textarea,
+  Text,
+  Box,
+  notificationService,
+  Notification,
+  NotificationTitle,
+  Icon,
+} from "@hope-ui/solid";
+import { CgDanger } from "solid-icons/cg";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
-const EMPTY_VALUE = "母音に変換したい文字を入力してください。";
 
 const { convertToVowel } = useConvertToVowel();
-
-const isSP = useMediaQuery("(max-width: 767px)");
 
 const App: Component = () => {
   const [value, setValue] = createSignal("");
   const [convertedValue, setConvertedValue] = createSignal("");
+  const [isLoading, setIsLoading] = createSignal(false);
 
   const [errorMessage, setErrorMessage] = createSignal("");
   const hiraganaRepo = useHiraganaRepo();
 
   const convertHiragana = async (value: string) => {
     setErrorMessage("");
+    setConvertedValue("");
 
     try {
       if (!value) {
-        throw new Error(EMPTY_VALUE);
+        setErrorMessage("文字を入力してください。");
+        return;
       }
+
+      setIsLoading(true);
 
       const converted = await hiraganaRepo.fetch({
         app_id: APP_ID,
@@ -42,74 +51,87 @@ const App: Component = () => {
 
       setConvertedValue(convertedVowel);
     } catch (e: unknown) {
-      const errorResponse = e as { code: number; message: string };
-
-      if (errorResponse.code && errorResponse.code !== 200) {
-        setErrorMessage(ERROR_MESSAGE);
-        return;
-      }
-
-      setErrorMessage(errorResponse.message);
-      setConvertedValue("");
+      notificationService.show({
+        render: () => (
+          <Notification bg={"$danger4"}>
+            <Icon boxSize="1.5em" color={"$danger11"} as={CgDanger} mr={2} />
+            <NotificationTitle color={"$danger11"}>
+              {ERROR_MESSAGE}
+            </NotificationTitle>
+          </Notification>
+        ),
+        duration: 2_000,
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <Container maxWidth="md" sx={{ textAlign: "center" }}>
-      <Typography variant="h3" component="h1" gutterBottom sx={{ mt: 4 }}>
-        母音変換機
-      </Typography>
+    <Container maxWidth="md" p={24}>
+      <Center>
+        <Heading level="1" size="4xl" my={24}>
+          母音変換機
+        </Heading>
+      </Center>
 
       <Stack
-        sx={{ alignItems: "center", justifyContent: "center" }}
-        direction={isSP() ? "column" : "row"}
-        spacing={4}
+        spacing={16}
+        direction={{ "@initial": "column", "@md": "row" }}
+        mb={36}
+        justifyContent="center"
       >
-        <textarea
-          id="value"
-          aria-label="value"
-          placeholder="母音に変換したい文字を入力してください"
-          rows="10"
-          cols="50"
-          onInput={(event) => {
-            setValue(event.currentTarget.value);
-          }}
-          class={styles.textarea}
-        >
-          {value()}
-        </textarea>
-
-        <textarea
-          id="value"
-          aria-label="value"
-          placeholder="母音に変換後の文字が入ります"
-          rows="10"
-          cols="50"
-          readonly
-          class={styles.textarea}
-        >
-          {convertedValue()}
-        </textarea>
-      </Stack>
-      {errorMessage() && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          <AlertTitle
-            sx={{
-              textAlign: "left",
+        <Box w={{ "@initial": "full", "@md": "400px" }}>
+          <Text mb="$2">母音に変換したい文字</Text>
+          <Textarea
+            value={value()}
+            placeholder="母音に変換したい文字"
+            onInput={(event) => {
+              setValue(event.currentTarget.value);
             }}
-          >
-            {errorMessage()}
-          </AlertTitle>
-        </Alert>
-      )}
-      <Button
-        sx={{ width: isSP() ? "100%" : 200, mt: 4 }}
-        variant="contained"
-        size="large"
-        onclick={() => convertHiragana(value())}
-      >
-        母音に変換する
-      </Button>
+            invalid={errorMessage() !== "" && value() === ""}
+            size="lg"
+            h={200}
+            required
+            bg={errorMessage() !== "" && value() === "" ? "$danger6" : "fff"}
+            resize={"none"}
+          />
+          {errorMessage() !== "" && value() === "" && (
+            <Text color={"$danger10"} size={"sm"}>
+              {errorMessage()}
+            </Text>
+          )}
+        </Box>
+
+        <Box w={{ "@initial": "full", "@md": "400px" }}>
+          <Text mb="$2">母音に変換後の文字</Text>
+          <Textarea
+            value={convertedValue()}
+            variant="unstyled"
+            placeholder="おいいんいえんあんいあいおい"
+            readOnly
+            size="lg"
+            h={200}
+            py={8}
+            px={16}
+            resize={"none"}
+            bg={convertedValue()! == "" ? "$neutral3" : "$danger3"}
+            onInput={(event) => {
+              setValue(event.currentTarget.value);
+            }}
+          />
+        </Box>
+      </Stack>
+
+      <Center>
+        <Button
+          loading={isLoading()}
+          onclick={() => convertHiragana(value())}
+          w={{ "@initial": "100%", "@md": "320px" }}
+        >
+          母音に変換する
+        </Button>
+      </Center>
     </Container>
   );
 };

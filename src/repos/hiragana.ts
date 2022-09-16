@@ -13,7 +13,7 @@ export const useHiraganaRepo = () => {
         body,
       });
 
-      if (!converted) throw new Error(ERROR_MESSAGE);
+      // if (!converted) throw new Error(ERROR_MESSAGE);
 
       return converted;
     },

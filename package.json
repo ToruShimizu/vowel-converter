@@ -27,10 +27,12 @@
   "dependencies": {
     "@aspida/axios": "^1.11.0",
     "@aspida/fetch": "^1.11.0",
-    "@suid/icons-material": "^0.4.0",
-    "@suid/material": "^0.6.2",
+    "@hope-ui/solid": "^0.6.7",
+    "@stitches/core": "^1.2.8",
     "axios": "^0.27.2",
-    "solid-js": "^1.5.1"
+    "solid-icons": "^1.0.1",
+    "solid-js": "^1.5.1",
+    "solid-transition-group": "^0.0.11"
   },
   "volta": {
     "node": "16.10.0",
