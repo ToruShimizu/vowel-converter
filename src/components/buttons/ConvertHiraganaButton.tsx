@@ -1,5 +1,5 @@
 import { Button } from "@hope-ui/solid";
-import { Component } from "solid-js";
+import { Component, splitProps } from "solid-js";
 
 type ConvertHiraganaButtonProps = {
   isLoading: boolean;
@@ -7,15 +7,15 @@ type ConvertHiraganaButtonProps = {
   onclick: (value: string) => Promise<void>;
 };
 
-const ConvertHiraganaButton: Component<ConvertHiraganaButtonProps> = ({
-  isLoading,
-  text,
-  onclick,
-}) => {
+const ConvertHiraganaButton: Component<ConvertHiraganaButtonProps> = (
+  props
+) => {
+  const [local] = splitProps(props, ["isLoading", "text", "onclick"]);
+
   return (
     <Button
-      loading={isLoading}
-      onclick={() => onclick(text)}
+      loading={local.isLoading}
+      onclick={() => local.onclick(local.text)}
       w={{ "@initial": "100%", "@md": "320px" }}
       bg={"$primary9"}
     >
