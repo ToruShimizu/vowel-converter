@@ -2,7 +2,6 @@ import { Component, createMemo, createSignal, Show } from "solid-js";
 import { ERROR_MESSAGE, useHiraganaRepo } from "./repos/hiragana";
 import { useConvertToVowel } from "./modules/useConvertToVowel";
 import {
-  Button,
   Heading,
   Stack,
   Container,
@@ -15,8 +14,12 @@ import {
   NotificationTitle,
   Icon,
   Spinner,
+  VStack,
+  HStack,
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
+import ConvertHiraganaButton from "./components/buttons/ConvertHiraganaButton";
+import TweetButton from "./components/buttons/TweetButton";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 
@@ -69,6 +72,9 @@ const App: Component = () => {
 
   const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
 
+  const tweet = createMemo(() => `${text()}\n${convertedVowel()}`);
+  const isDisabled = createMemo(() => !convertedVowel() || isLoading());
+
   return (
     <Container maxWidth="md" py={"$16"} px={"$6"}>
       <Center>
@@ -76,11 +82,10 @@ const App: Component = () => {
           母音変換機
         </Heading>
       </Center>
-
       <Stack
-        spacing={16}
+        spacing={"$4"}
         direction={{ "@initial": "column", "@md": "row" }}
-        mb={"$16"}
+        mb={"$10"}
         justifyContent="center"
       >
         <Box w={{ "@initial": "$full", "@md": "400px" }} h={200} mb="$12">
@@ -111,6 +116,15 @@ const App: Component = () => {
             </Text>
           )}
         </Box>
+
+        <VStack display={{ "@sm": "none" }} my={"$4"} spacing={"$4"}>
+          <ConvertHiraganaButton
+            isLoading={isLoading()}
+            text={text()}
+            onclick={fetchConvertHiragana}
+          />
+          <TweetButton disabled={isDisabled()} text={tweet()} />
+        </VStack>
 
         <Box w={{ "@initial": "$full", "@md": "400px" }} h={200}>
           <Text mb="$2">母音に変換後の文字</Text>
@@ -147,16 +161,18 @@ const App: Component = () => {
         </Box>
       </Stack>
 
-      <Center>
-        <Button
-          loading={isLoading()}
-          onclick={() => fetchConvertHiragana(text())}
-          w={{ "@initial": "100%", "@md": "320px" }}
-          bg={"$primary9"}
-        >
-          母音に変換する
-        </Button>
-      </Center>
+      <HStack
+        display={{ "@initial": "none", "@md": "flex" }}
+        justifyContent="center"
+        spacing={"$4"}
+      >
+        <ConvertHiraganaButton
+          isLoading={isLoading()}
+          text={text()}
+          onclick={fetchConvertHiragana}
+        />
+        <TweetButton disabled={isDisabled()} text={tweet()} />
+      </HStack>
     </Container>
   );
 };
