@@ -144,7 +144,7 @@ const App: Component = () => {
             <Textarea
               value={convertedVowel()}
               variant="unstyled"
-              placeholder="おいいんいえんあんいあいおい"
+              placeholder="おいんい えんあんいあい おい"
               readOnly
               size="lg"
               py={!convertedVowel() ? "$2" : ""}
