@@ -16,7 +16,7 @@ const ConvertHiraganaButton: Component<ConvertHiraganaButtonProps> = (
     <Button
       loading={local.isLoading}
       onclick={() => local.onclick(local.text)}
-      w={{ "@initial": "100%", "@md": "320px" }}
+      w={{ "@initial": "100%", "@lg": "320px" }}
       bg={"$primary9"}
     >
       母音に変換する

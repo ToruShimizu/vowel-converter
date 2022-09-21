@@ -14,7 +14,7 @@ const TweetButton: Component<TweetButtonProps> = (props) => {
       variant="subtle"
       bg={"$info8"}
       color={"$whiteAlpha12"}
-      w={{ "@initial": "100%", "@md": "320px" }}
+      w={{ "@initial": "100%", "@lg": "320px" }}
       disabled={local.disabled}
     >
       <a
