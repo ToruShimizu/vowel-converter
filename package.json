@@ -9,10 +9,12 @@
     "serve": "vite preview",
     "lint-fix": "eslint --cache --fix src/ && prettier --write src/",
     "api:build": "aspida",
-    "test": "uvu -r solid-register"
+    "test": "uvu -r solid-register",
+    "test:e2e": "playwright test"
   },
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "eslint": "^8.23.0",
