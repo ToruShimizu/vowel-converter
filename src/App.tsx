@@ -84,11 +84,11 @@ const App: Component = () => {
       </Center>
       <Stack
         spacing={"$4"}
-        direction={{ "@initial": "column", "@md": "row" }}
+        direction={{ "@initial": "column", "@lg": "row" }}
         mb={"$10"}
         justifyContent="center"
       >
-        <Box w={{ "@initial": "$full", "@md": "400px" }} h={200} mb="$12">
+        <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200} mb="$12">
           <Text mb="$2">母音に変換したい文字</Text>
           <Textarea
             value={text()}
@@ -117,7 +117,11 @@ const App: Component = () => {
           )}
         </Box>
 
-        <VStack display={{ "@sm": "none" }} my={"$4"} spacing={"$4"}>
+        <VStack
+          display={{ "@lg": "none", "@sm": "flex" }}
+          my={"$4"}
+          spacing={"$4"}
+        >
           <ConvertHiraganaButton
             isLoading={isLoading()}
             text={text()}
@@ -126,7 +130,7 @@ const App: Component = () => {
           <TweetButton disabled={isDisabled()} text={tweet()} />
         </VStack>
 
-        <Box w={{ "@initial": "$full", "@md": "400px" }} h={200}>
+        <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200}>
           <Text mb="$2">母音に変換後の文字</Text>
           <Show
             when={!isLoading()}
@@ -162,7 +166,7 @@ const App: Component = () => {
       </Stack>
 
       <HStack
-        display={{ "@initial": "none", "@md": "flex" }}
+        display={{ "@initial": "none", "@lg": "flex" }}
         justifyContent="center"
         spacing={"$4"}
       >
