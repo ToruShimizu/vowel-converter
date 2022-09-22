@@ -9,10 +9,12 @@
     "serve": "vite preview",
     "lint-fix": "eslint --cache --fix src/ && prettier --write src/",
     "api:build": "aspida",
-    "test": "uvu -r solid-register"
+    "test": "uvu -r solid-register src/modules/tests",
+    "test:e2e": "playwright test"
   },
   "license": "MIT",
   "devDependencies": {
+    "@playwright/test": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "eslint": "^8.23.0",
@@ -33,6 +35,19 @@
     "solid-icons": "^1.0.1",
     "solid-js": "^1.5.1",
     "solid-transition-group": "^0.0.11"
+  },
+  "solid-register": {
+    "compile": {
+      "solid": {
+        "engine": "solid",
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
   },
   "volta": {
     "node": "16.10.0",
