@@ -3,10 +3,8 @@ import { test, expect } from "@playwright/test";
 test("ページにアクセスして入力した文字を母音に変換する", async ({ page }) => {
   await page.goto("https://vowel-converter.vercel.app/");
 
-  // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/母音変換機/);
 
-  // create a locator
   await page.locator('[placeholder="母音に変換したい文字"]').click();
   await page
     .locator('[placeholder="母音に変換したい文字"]')
