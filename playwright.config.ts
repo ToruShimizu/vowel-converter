@@ -52,13 +52,13 @@ const config: PlaywrightTestConfig = {
       },
     },
 
-    // FIXME: firefoxだけエラーになるため要調査
-    // {
-    //   name: "firefox",
-    //   use: {
-    //     ...devices["Desktop Firefox"],
-    //   },
-    // },
+    {
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+        ignoreHTTPSErrors: true,
+      },
+    },
 
     {
       name: "webkit",
