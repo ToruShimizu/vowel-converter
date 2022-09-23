@@ -18,8 +18,8 @@ import {
   HStack,
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
-import ConvertHiraganaButton from "./components/buttons/ConvertHiraganaButton";
-import TweetButton from "./components/buttons/TweetButton";
+import AppButton from "./components/buttons/AppButton";
+import LinkButton from "./components/buttons/LinkButton";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 
@@ -73,6 +73,11 @@ const App: Component = () => {
   const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
 
   const tweet = createMemo(() => `${text()}\n${convertedVowel()}`);
+  const tweetLink = createMemo(
+    () =>
+      `http://twitter.com/share?url=https://vowel-converter.vercel.app/&text=${tweet()}&hashtags=母音変換機`
+  );
+
   const isDisabled = createMemo(() => !convertedVowel() || isLoading());
 
   return (
@@ -122,12 +127,14 @@ const App: Component = () => {
           my={"$4"}
           spacing={"$4"}
         >
-          <ConvertHiraganaButton
-            isLoading={isLoading()}
-            text={text()}
-            onclick={fetchConvertHiragana}
+          <AppButton
+            loading={isLoading()}
+            onclick={() => fetchConvertHiragana(text())}
           />
-          <TweetButton disabled={isDisabled()} text={tweet()} />
+
+          <LinkButton disabled={isDisabled()} href={tweetLink()}>
+            ツイートする
+          </LinkButton>
         </VStack>
 
         <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200}>
@@ -170,12 +177,14 @@ const App: Component = () => {
         justifyContent="center"
         spacing={"$4"}
       >
-        <ConvertHiraganaButton
-          isLoading={isLoading()}
-          text={text()}
-          onclick={fetchConvertHiragana}
+        <AppButton
+          loading={isLoading()}
+          onclick={() => fetchConvertHiragana(text())}
         />
-        <TweetButton disabled={isDisabled()} text={tweet()} />
+
+        <LinkButton disabled={isDisabled()} href={tweetLink()}>
+          ツイートする
+        </LinkButton>
       </HStack>
     </Container>
   );
