@@ -18,7 +18,7 @@ import {
   HStack,
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
-import ConvertHiraganaButton from "./components/buttons/ConvertHiraganaButton";
+import AppButton from "./components/buttons/AppButton";
 import LinkButton from "./components/buttons/LinkButton";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
@@ -127,10 +127,9 @@ const App: Component = () => {
           my={"$4"}
           spacing={"$4"}
         >
-          <ConvertHiraganaButton
-            isLoading={isLoading()}
-            text={text()}
-            onclick={fetchConvertHiragana}
+          <AppButton
+            loading={isLoading()}
+            onclick={() => fetchConvertHiragana(text())}
           />
 
           <LinkButton disabled={isDisabled()} href={tweetLink()}>
@@ -178,10 +177,9 @@ const App: Component = () => {
         justifyContent="center"
         spacing={"$4"}
       >
-        <ConvertHiraganaButton
-          isLoading={isLoading()}
-          text={text()}
-          onclick={fetchConvertHiragana}
+        <AppButton
+          loading={isLoading()}
+          onclick={() => fetchConvertHiragana(text())}
         />
 
         <LinkButton disabled={isDisabled()} href={tweetLink()}>
