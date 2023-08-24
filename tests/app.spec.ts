@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("ページにアクセスして入力した文字を母音に変換する", async ({ page }) => {
-  await page.goto("https://vowel-converter.vercel.app/");
+  await page.goto("https://vowel-craft.vercel.app/");
 
   await expect(page).toHaveTitle(/Vowel Craft/);
 
