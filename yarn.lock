@@ -11,11 +11,11 @@
     "@jridgewell/trace-mapping" "^0.3.9"
 
 "@aspida/axios@^1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@aspida/axios/-/axios-1.11.0.tgz#66157bb003460ed9a02c4f1607fb0ce388d1894e"
-  integrity sha512-tsxkqCQPmPHlqVPW0BYwR7tHmmxbk8yEpOb6gn9bnqCe5riBDHLUiiWlde5+gSjWQAxx/TJ9AAlyciaL84vylw==
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@aspida/axios/-/axios-1.13.0.tgz#1b3d5f8d8a87782daee2329bf6c8317e65d4b42e"
+  integrity sha512-GgwstOZcR18Kf8j/iYVdc5kJ3jwuy9Ni7twMfIffGrsWHZCQhcp5IAoPCVZow70j5VzQX3+qGJHyE28YhTulqg==
   dependencies:
-    aspida "^1.7.1"
+    aspida "^1.13.0"
 
 "@aspida/fetch@^1.11.0":
   version "1.11.0"
@@ -598,15 +598,15 @@ array-union@^2.1.0:
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
   integrity sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==
 
-aspida@^1.7.1:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/aspida/-/aspida-1.11.0.tgz#a01f75ed3c85929de592afc71802fa1c689a3b7d"
-  integrity sha512-TVQ4bKJQ5nLm6GCZRIzBA8fQe7AhilYkpsQWg0DeBNKm2u7kbulxyCD8xXOqs41Xkrt+jNG7/GGkkseDPgUSOQ==
+aspida@^1.13.0, aspida@^1.7.1:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/aspida/-/aspida-1.14.0.tgz#13a99115a0b7831bd83ec8e97caa39105fd8fd2c"
+  integrity sha512-ZLwin6gvVUDGo66oWjSxVl5lVhfD1cTLln7m3qtsgrID3bwyUK4VCEMvlcOxXHtPeiCrcGyjgKWDHgbzhzM0TA==
   dependencies:
     "@types/minimist" "^1.2.2"
     chokidar "^3.5.3"
     form-data "^4.0.0"
-    minimist "^1.2.6"
+    minimist "^1.2.8"
 
 asynckit@^0.4.0:
   version "0.4.0"
@@ -1582,10 +1582,10 @@ minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimist@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
-  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
+minimist@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
+  integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
 mri@^1.1.0:
   version "1.2.0"
