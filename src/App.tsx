@@ -72,12 +72,6 @@ const App: Component = () => {
 
   const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
 
-  const tweet = createMemo(() => `${text()}\n${convertedVowel()}`);
-  const tweetLink = createMemo(
-    () =>
-      `http://twitter.com/share?url=https://vowel-converter.vercel.app/&text=${tweet()}&hashtags=母音変換機`
-  );
-
   const isDisabled = createMemo(() => !convertedVowel() || isLoading());
 
   return (
@@ -131,10 +125,6 @@ const App: Component = () => {
             loading={isLoading()}
             onclick={() => fetchConvertHiragana(text())}
           />
-
-          <LinkButton disabled={isDisabled()} href={tweetLink()}>
-            ツイートする
-          </LinkButton>
         </VStack>
 
         <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200}>
@@ -181,10 +171,6 @@ const App: Component = () => {
           loading={isLoading()}
           onclick={() => fetchConvertHiragana(text())}
         />
-
-        <LinkButton disabled={isDisabled()} href={tweetLink()}>
-          ツイートする
-        </LinkButton>
       </HStack>
     </Container>
   );
