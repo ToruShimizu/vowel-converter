@@ -84,7 +84,7 @@ const App: Component = () => {
     <Container maxWidth="md" py={"$16"} px={"$6"}>
       <Center>
         <Heading level="1" size="4xl" my={24}>
-          母音変換機
+          Vowel Craft
         </Heading>
       </Center>
       <Stack
