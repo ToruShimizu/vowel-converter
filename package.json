@@ -31,7 +31,7 @@
     "@aspida/fetch": "^1.11.0",
     "@hope-ui/solid": "^0.6.7",
     "@stitches/core": "^1.2.8",
-    "axios": "^0.27.2",
+    "axios": "^1.4.0",
     "solid-icons": "^1.0.1",
     "solid-js": "^1.5.1",
     "solid-transition-group": "^0.0.11"
