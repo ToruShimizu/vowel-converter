@@ -1,34 +1,21 @@
-## Usage
+# Vowel Craft
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+Vowel Craft は入力したテキストを全て母音に変換してくれる Web App です。
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+## 特徴
 
-```bash
-$ npm install # or pnpm install or yarn install
-```
+- ひらがな、カタカナ、漢字、数字、英文字など様々なテキストを母音に変換します。
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## 使い方
 
-## Available Scripts
+1. [Vowel Craft](https://vowel-craft.vercel.app/) にアクセスします。
+2. テキストボックスに母音に変換したいテキストを入力します。
+3. 「変換」ボタンをクリックすると、母音に変換されたテキストがテキストボックス内に表示されます。
 
-In the project directory, you can run:
+## 使用技術
 
-### `npm dev` or `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+| Category | Technology Stack              |
+| -------- | ----------------------------- |
+| Frontend | TypeScript, Solid.js, Hope UI |
+| CI/CD    | GitHub Actions                |
+| etc.     | playwright, uvu               |
