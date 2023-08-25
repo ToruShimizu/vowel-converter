@@ -19,7 +19,6 @@ import {
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
 import AppButton from "./components/buttons/AppButton";
-import LinkButton from "./components/buttons/LinkButton";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 
@@ -72,12 +71,10 @@ const App: Component = () => {
 
   const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
 
-  const isDisabled = createMemo(() => !convertedVowel() || isLoading());
-
   return (
     <Container maxWidth="md" py={"$16"} px={"$6"}>
       <Center>
-        <Heading level="1" size="4xl" my={24}>
+        <Heading level="1" size="4xl" my={24} fontFamily={"$mono"}>
           Vowel Craft
         </Heading>
       </Center>
@@ -87,11 +84,12 @@ const App: Component = () => {
         mb={"$10"}
         justifyContent="center"
       >
-        <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200} mb="$12">
-          <Text mb="$2">母音に変換したい文字</Text>
+        <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200}>
           <Textarea
             value={text()}
             placeholder="母音に変換したい文字"
+            fontFamily={"$mono"}
+            fontSize={"$md"}
             invalid={isInValid()}
             size="lg"
             h={"$full"}
@@ -128,10 +126,9 @@ const App: Component = () => {
         </VStack>
 
         <Box w={{ "@initial": "$full", "@lg": "400px" }} h={200}>
-          <Text mb="$2">母音に変換後の文字</Text>
           <Show
             when={!isLoading()}
-            fallback={() => (
+            fallback={
               <Center alignItems="center" display="flex" h="$full">
                 <Spinner
                   thickness="4px"
@@ -140,12 +137,14 @@ const App: Component = () => {
                   color="$primary6"
                 />
               </Center>
-            )}
+            }
           >
             <Textarea
               value={convertedVowel()}
               variant="unstyled"
-              placeholder="おいんい えんあんいあい おい"
+              placeholder="母音に変換された文字が表示されます"
+              fontFamily={"$mono"}
+              fontSize={"$md"}
               readOnly
               size="lg"
               py={!convertedVowel() ? "$2" : ""}
