@@ -6,9 +6,10 @@ const AppButton: Component<ButtonProps> = (props) => {
     <Button
       w={{ "@initial": "100%", "@lg": "320px" }}
       bg={"$primary9"}
+      fontFamily={"$mono"}
       {...props}
     >
-      母音に変換する
+      変換する
     </Button>
   );
 };
