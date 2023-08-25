@@ -128,7 +128,7 @@ const App: Component = () => {
           <Text mb="$2">母音に変換後の文字</Text>
           <Show
             when={!isLoading()}
-            fallback={() => (
+            fallback={
               <Center alignItems="center" display="flex" h="$full">
                 <Spinner
                   thickness="4px"
@@ -137,7 +137,7 @@ const App: Component = () => {
                   color="$primary6"
                 />
               </Center>
-            )}
+            }
           >
             <Textarea
               value={convertedVowel()}
