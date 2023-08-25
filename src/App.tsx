@@ -19,7 +19,6 @@ import {
 } from "@hope-ui/solid";
 import { CgDanger } from "solid-icons/cg";
 import AppButton from "./components/buttons/AppButton";
-import LinkButton from "./components/buttons/LinkButton";
 
 const APP_ID = import.meta.env.VITE_APP_ID as string;
 
@@ -71,8 +70,6 @@ const App: Component = () => {
   };
 
   const convertedVowel = createMemo(() => convertToVowel(convertedHiragana()));
-
-  const isDisabled = createMemo(() => !convertedVowel() || isLoading());
 
   return (
     <Container maxWidth="md" py={"$16"} px={"$6"}>
